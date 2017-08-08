@@ -125,6 +125,9 @@ typedef void(^HGStyleParsingErrorCallback)(NSArray *errorMessages);
 /** \brief Manually invoke highlighting (without parsing) of the NSTextView contents. */
 - (void) highlightNow;
 
+/** \brief Overridable to specify the current on-screen character range. */
+- (NSRange) visibleCharacterRange;
+
 /** \brief Clear highlighting from the NSTextView.
  * 
  * This method depends on the values stored by readClearTextStylesFromTextView().

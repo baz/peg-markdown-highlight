@@ -351,16 +351,22 @@ void styleparsing_error_callback(char *error_message, int line_number, void *con
 	[[self.targetTextView textStorage] endEditing];
 }
 
-- (void) applyVisibleRangeHighlighting
+- (NSRange) visibleCharacterRange
 {
 	NSRect visibleRect = [[[self.targetTextView enclosingScrollView] contentView] documentVisibleRect];
-    NSLayoutManager *layoutManager = [self.targetTextView layoutManager];
+	NSLayoutManager *layoutManager = [self.targetTextView layoutManager];
 	NSRange visibleGlyphRange = [layoutManager glyphRangeForBoundingRect:visibleRect inTextContainer:[self.targetTextView textContainer]];
 	NSRange visibleCharRange = [layoutManager characterRangeForGlyphRange:visibleGlyphRange actualGlyphRange:NULL];
-    
+
+	return visibleCharRange;
+}
+
+- (void) applyVisibleRangeHighlighting
+{
 	if (_cachedElements == NULL)
 		return;
     
+	NSRange visibleCharRange = [self visibleCharacterRange];
     @try {
         [self applyHighlighting:_cachedElements withRange:visibleCharRange];
     }
